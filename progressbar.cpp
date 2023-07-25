@@ -23,7 +23,7 @@ ProgressBar::ProgressBar(HWND mainWindow, HINSTANCE g_hinst)
 void ProgressBar::setRange(unsigned number)
 {
     // sets its range
-    SendMessage(m_handle, PBM_SETRANGE, 0, number);
+    SendMessage(m_handle, PBM_SETRANGE, 0, MAKELPARAM(0, number));
 }
 
 void ProgressBar::increment()

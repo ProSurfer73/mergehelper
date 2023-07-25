@@ -33,12 +33,27 @@
 			<Add option="-lcomdlg32" />
 			<Add option="-Wl,--subsystem,windows" />
 			<Add option="-lgdi32" />
+			<Add option="-std=c++2a" />
 		</Compiler>
 		<Linker>
 			<Add library="libcomdlg32.a" />
 			<Add library="libGdi32.a" />
 		</Linker>
+		<Unit filename="dialogs.cpp" />
+		<Unit filename="dialogs.hpp" />
+		<Unit filename="filereader.cpp" />
+		<Unit filename="filereader.hpp" />
+		<Unit filename="filesystem.cpp" />
+		<Unit filename="filesystem.hpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="program.cpp" />
+		<Unit filename="program.hpp" />
+		<Unit filename="progressbar.cpp" />
+		<Unit filename="progressbar.hpp" />
+		<Unit filename="strings.cpp" />
+		<Unit filename="strings.hpp" />
+		<Unit filename="window.cpp" />
+		<Unit filename="window.hpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
