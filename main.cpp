@@ -2,11 +2,15 @@
 
 #include <windows.h>
 
-#define APPTITLE "Hello World"
+#include <Shlobj.h>
+
+#define APPTITLE "Merge helper."
 
 ATOM Init_App_Window_class(HINSTANCE);                 //Function to create and fill the Window class structure WNDCLASSEX
 BOOL InitInstance(HINSTANCE,int);                      //Create window according to specifics in window class structure
 LRESULT CALLBACK WinProc(HWND,UINT,WPARAM,LPARAM);     //Used to process the Messages from Windows to Application
+
+HWND mainWindow;
 
 //-------------------------- Main Program------------------------------------------------------------------------------------------------------//
 int WINAPI WinMain(HINSTANCE hInstance,               //instance of the running program
@@ -20,6 +24,36 @@ int WINAPI WinMain(HINSTANCE hInstance,               //instance of the running 
 
     if(!InitInstance(hInstance,nCmdShow)) //Create window according to specifics in window class structure
         return FALSE;
+
+
+
+    // select a folder using windows dialog boxes.
+    TCHAR szDir[MAX_PATH];
+    BROWSEINFO bInfo;
+    bInfo.hwndOwner = mainWindow;
+    bInfo.pidlRoot = NULL;
+    bInfo.pszDisplayName = szDir; // Address of a buffer to receive the display name of the folder selected by the user
+    bInfo.lpszTitle = "Please, select a folder"; // Title of the dialog
+    bInfo.ulFlags = 0 ;
+    bInfo.lpfn = NULL;
+    bInfo.lParam = 0;
+    bInfo.iImage = -1;
+
+    reaskFolder:
+    LPITEMIDLIST lpItem = SHBrowseForFolder( &bInfo);
+    if( lpItem != NULL )
+    {
+      SHGetPathFromIDList(lpItem, szDir );
+      //......
+    }
+    else
+    {
+        MessageBoxA(mainWindow, "You must select a directory to continue.", NULL, MB_ICONWARNING);
+        goto reaskFolder;
+    }
+
+
+
 
 
     while(GetMessage(&m,NULL,0,0))        //Get message from Application Message Queue,Quit loop on Recieving WM_QUIT
@@ -54,9 +88,7 @@ ATOM Init_App_Window_class(HINSTANCE hInstance)  //Function to create and fill t
 
 BOOL InitInstance(HINSTANCE hInstance,int nCmdShow) //Create window according to specifics in window class structure
 {
-    HWND hWnd;					// Handle for the window
-
-    hWnd = CreateWindow( APPTITLE,            // Window Class Name
+    mainWindow = CreateWindow( APPTITLE,            // Window Class Name
                          APPTITLE,            // Title Bar
                          WS_OVERLAPPEDWINDOW, // Window style
                          CW_USEDEFAULT,       // x position of Window
@@ -68,18 +100,18 @@ BOOL InitInstance(HINSTANCE hInstance,int nCmdShow) //Create window according to
                          hInstance,           // Application Instance
                          NULL );              // Window parameters
 
-    if(!hWnd)          //Was there an error in creating a window ? ie hWnd = 0;
+    if(!mainWindow)          //Was there an error in creating a window ? ie hWnd = 0;
         return FALSE;
 
-    ShowWindow(hWnd,nCmdShow);  //show the Window
-    UpdateWindow(hWnd);         //update the window inresponse to events
+    ShowWindow(mainWindow,nCmdShow);  //show the Window
+    UpdateWindow(mainWindow);         //update the window in response to events
     return TRUE;
 }
 
 //---------Windows Call Back function to Process Messages from Windows-------------------------------------------------------------------------//
 
-LRESULT CALLBACK WinProc (HWND hWnd,           //Window handle
-                          UINT message,        //messages from Windows like WM_DESTROY,WM_PAINT
+LRESULT CALLBACK WinProc (HWND hWnd,           // Window handle
+                          UINT message,        // messages from Windows like WM_DESTROY,WM_PAINT
                           WPARAM wParam,       //
                           LPARAM lParam)
 {
