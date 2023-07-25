@@ -1,8 +1,7 @@
 #include <iostream>
-
 #include <windows.h>
-
 #include <Shlobj.h>
+#include "filesystem.hpp"
 
 #define APPTITLE "Merge helper."
 
@@ -52,14 +51,24 @@ int WINAPI WinMain(HINSTANCE hInstance,               //instance of the running 
         goto reaskFolder;
     }
 
+    std::vector<std::string> v;
+    explore_directory(szDir, v);
+
+    // lets print the content list of that directory for debugging purposes.
+    for(const std::string& s: v){
+        std::cout << s << std::endl;
+    }
+
+
+
 
 
 
 
     while(GetMessage(&m,NULL,0,0))        //Get message from Application Message Queue,Quit loop on Recieving WM_QUIT
     {
-        TranslateMessage(&m);         //Transalate Message
-        DispatchMessage(&m);          //Dispatch Message to WinProc() function
+        TranslateMessage(&m);         // Translate Message
+        DispatchMessage(&m);          // Dispatch Message to WinProc() function
     }
     return m.wParam;
 }

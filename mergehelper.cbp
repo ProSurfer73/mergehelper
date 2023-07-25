@@ -30,7 +30,15 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-lcomdlg32" />
+			<Add option="-Wl,--subsystem,windows" />
+			<Add option="-lgdi32" />
 		</Compiler>
+		<Linker>
+			<Add library="libcomdlg32.a" />
+			<Add library="libGdi32.a" />
+		</Linker>
+		<Unit filename="main.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
