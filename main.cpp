@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <Shlobj.h>
 #include "filesystem.hpp"
+#include "filereader.hpp"
 
 #define APPTITLE "Merge helper."
 
@@ -9,7 +10,7 @@ ATOM Init_App_Window_class(HINSTANCE);                 //Function to create and 
 BOOL InitInstance(HINSTANCE,int);                      //Create window according to specifics in window class structure
 LRESULT CALLBACK WinProc(HWND,UINT,WPARAM,LPARAM);     //Used to process the Messages from Windows to Application
 
-HWND mainWindow;
+static HWND mainWindow;
 
 //-------------------------- Main Program------------------------------------------------------------------------------------------------------//
 int WINAPI WinMain(HINSTANCE hInstance,               //instance of the running program
@@ -56,7 +57,8 @@ int WINAPI WinMain(HINSTANCE hInstance,               //instance of the running 
 
     // lets print the content list of that directory for debugging purposes.
     for(const std::string& s: v){
-        std::cout << s << std::endl;
+        if(detectFile(s))
+            std::cout << s << std::endl;
     }
 
 
