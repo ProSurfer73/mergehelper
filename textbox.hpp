@@ -6,7 +6,7 @@
 class TextBox
 {
 public:
-    TextBox(HWND parent);
+    TextBox(HWND parent, int x, int y, int height, int width, const char* text);
     HWND getHandle() const;
 
     void setText(const char* text);

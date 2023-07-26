@@ -2,14 +2,14 @@
 
 #include "textbox.hpp"
 
-TextBox::TextBox(HWND parent)
+TextBox::TextBox(HWND parent, int x, int y, int height, int width, const char* text)
 {
     handle = CreateWindow("STATIC",
-                          "Hello world.",
+                          text,
                           WS_VISIBLE | WS_CHILD,
-                          20, 80,
-                          300,
-                          100,
+                          x, y,
+                          width,
+                          height,
                           parent,
                           NULL,
                           NULL,

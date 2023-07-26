@@ -33,7 +33,12 @@ int WINAPI WinMain(HINSTANCE hInstance,               //instance of the running 
     ProgressBar bar(window.getHandle(), hInstance);
     bar.setRange(v.size());
 
-    TextBox box(window.getHandle());
+    TextBox box(window.getHandle(), 20, 230, 80, 300, nullptr);
+
+    char buf2[255+50];
+    sprintf(buf2, "loading folder: %s", buffer);
+    TextBox box2(window.getHandle(), 30, 10, 30, 300, nullptr);
+    box2.setText(buf2);
 
     //
     std::thread thread(fileLoading, std::ref(v), std::ref(bar), std::ref(box), std::ref(umf), window.getHandle());
@@ -56,13 +61,20 @@ void fileLoading(std::vector<std::string>& v, ProgressBar& bar, TextBox& box, st
         }
         bar.increment();
 
-        sprintf(buf, "number of files scanned: %u/%u\nnumber of unmerged files found: %u", (i+1), v.size(), umf.size());
+        sprintf(buf, "number of files scanned: %u/%u\nnumber of unmerged files found: %u", (i+1), (unsigned)v.size(), (unsigned)umf.size());
         box.setText(buf);
     }
 
     if(umf.empty())
     {
-        warningDialog(windowHandle, "There is no unmerged filess in that directory.\nPlease select another directory.", NULL);
+        warningDialog(windowHandle, "There is no unmerged files in that directory.\nPlease select another directory.", NULL);
+    }
+    else
+    {
+        // lets launch the second part of our program.
+
+
+
     }
 }
 
