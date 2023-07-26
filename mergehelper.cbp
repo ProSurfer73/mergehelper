@@ -46,8 +46,6 @@
 		<Unit filename="filesystem.cpp" />
 		<Unit filename="filesystem.hpp" />
 		<Unit filename="main.cpp" />
-		<Unit filename="program.cpp" />
-		<Unit filename="program.hpp" />
 		<Unit filename="progressbar.cpp" />
 		<Unit filename="progressbar.hpp" />
 		<Unit filename="strings.cpp" />

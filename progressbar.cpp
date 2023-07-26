@@ -11,9 +11,9 @@ ProgressBar::ProgressBar(HWND mainWindow, HINSTANCE g_hinst)
     int cyVScroll = 10;
 
     m_handle = CreateWindowEx(0, PROGRESS_CLASS, (LPTSTR) NULL,
-                            WS_CHILD | WS_VISIBLE, rcClient.left,
-                            rcClient.bottom - cyVScroll,
-                            rcClient.right, cyVScroll,
+                            WS_CHILD | WS_VISIBLE | PBS_SMOOTH,
+                            0, 0,
+                            rcClient.right-rcClient.left , 30,
                             mainWindow, (HMENU) 0, g_hinst, NULL);
 
     // sets the increment of the progress bar.
