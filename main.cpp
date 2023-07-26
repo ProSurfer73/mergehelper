@@ -44,17 +44,20 @@ int WINAPI WinMain(HINSTANCE hInstance,               //instance of the running 
 
 void fileLoading(const std::vector<std::string>& v, ProgressBar& bar, TextBox& box)
 {
-    char buf[20];
+    unsigned k=0;
+    char buf[150];
 
     for(unsigned i=0; i<v.size(); ++i)
     {
         const std::string& s = v[i];
 
         if(detectFile(s))
-            std::cout << s << std::endl;
+        {
+            k++;
+        }
         bar.increment();
 
-        sprintf(buf, "%u/%u", (i+1), v.size());
+        sprintf(buf, "number of files scanned: %u/%u\nnumber of unmerged files found: %u", (i+1), v.size(), k);
         box.setText(buf);
     }
 }
