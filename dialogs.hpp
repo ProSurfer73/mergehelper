@@ -9,8 +9,9 @@ bool askForDirectory(HWND parent, TCHAR* buffer);
 
 inline void warningDialog(HWND parent, const char* text, const char* title)
 {
-    MessageBoxA(parent, "You must select a directory to continue.", NULL, MB_ICONWARNING);
+    MessageBoxA(parent, text, NULL, MB_ICONWARNING);
 }
+
 
 
 #endif // DIALOGS_HPP

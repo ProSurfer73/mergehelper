@@ -11,7 +11,7 @@
 #include "dialogs.hpp"
 #include "textbox.hpp"
 
-void fileLoading(const std::vector<std::string>& v, ProgressBar& bar, TextBox& box);
+void fileLoading(std::vector<std::string>& v, ProgressBar& bar, TextBox& box, std::vector<std::string>& umf, HWND mainwindow);
 
 //-------------------------- Main Program------------------------------------------------------------------------------------------------------//
 int WINAPI WinMain(HINSTANCE hInstance,               //instance of the running program
@@ -26,7 +26,7 @@ int WINAPI WinMain(HINSTANCE hInstance,               //instance of the running 
 
     askForDirectory(window.getHandle(), buffer);
 
-    std::vector<std::string> v;
+    std::vector<std::string> v, umf;
     explore_directory(buffer, v);
 
     // lets print the content list of that directory for debugging purposes.
@@ -36,15 +36,14 @@ int WINAPI WinMain(HINSTANCE hInstance,               //instance of the running 
     TextBox box(window.getHandle());
 
     //
-    std::thread thread(fileLoading, std::cref(v), std::ref(bar), std::ref(box) );
+    std::thread thread(fileLoading, std::ref(v), std::ref(bar), std::ref(box), std::ref(umf), window.getHandle());
 
 
     return window.run();
 }
 
-void fileLoading(const std::vector<std::string>& v, ProgressBar& bar, TextBox& box)
+void fileLoading(std::vector<std::string>& v, ProgressBar& bar, TextBox& box, std::vector<std::string>& umf, HWND windowHandle)
 {
-    unsigned k=0;
     char buf[150];
 
     for(unsigned i=0; i<v.size(); ++i)
@@ -53,12 +52,17 @@ void fileLoading(const std::vector<std::string>& v, ProgressBar& bar, TextBox& b
 
         if(detectFile(s))
         {
-            k++;
+            umf.emplace_back( std::move(v[i]) );
         }
         bar.increment();
 
-        sprintf(buf, "number of files scanned: %u/%u\nnumber of unmerged files found: %u", (i+1), v.size(), k);
+        sprintf(buf, "number of files scanned: %u/%u\nnumber of unmerged files found: %u", (i+1), v.size(), umf.size());
         box.setText(buf);
+    }
+
+    if(umf.empty())
+    {
+        warningDialog(windowHandle, "There is no unmerged filess in that directory.\nPlease select another directory.", NULL);
     }
 }
 
