@@ -9,12 +9,9 @@
 #include "progressbar.hpp"
 #include "window.hpp"
 #include "dialogs.hpp"
+#include "textbox.hpp"
 
-ATOM Init_App_Window_class(HINSTANCE);                 //Function to create and fill the Window class structure WNDCLASSEX
-BOOL InitInstance(HINSTANCE,int);                      //Create window according to specifics in window class structure
-LRESULT CALLBACK WinProc(HWND,UINT,WPARAM,LPARAM);     //Used to process the Messages from Windows to Application
-
-static HWND mainWindow;
+void fileLoading(const std::vector<std::string>& v, ProgressBar& bar, TextBox& box);
 
 //-------------------------- Main Program------------------------------------------------------------------------------------------------------//
 int WINAPI WinMain(HINSTANCE hInstance,               //instance of the running program
@@ -36,15 +33,29 @@ int WINAPI WinMain(HINSTANCE hInstance,               //instance of the running 
     ProgressBar bar(window.getHandle(), hInstance);
     bar.setRange(v.size());
 
-    for(const std::string& s: v){
+    TextBox box(window.getHandle());
+
+    //
+    std::thread thread(fileLoading, std::cref(v), std::ref(bar), std::ref(box) );
+
+
+    return window.run();
+}
+
+void fileLoading(const std::vector<std::string>& v, ProgressBar& bar, TextBox& box)
+{
+    char buf[20];
+
+    for(unsigned i=0; i<v.size(); ++i)
+    {
+        const std::string& s = v[i];
+
         if(detectFile(s))
             std::cout << s << std::endl;
         bar.increment();
+
+        sprintf(buf, "%u/%u", (i+1), v.size());
+        box.setText(buf);
     }
-
-
-    std::thread thread(&Window::run, &window);
-
-    return window.run();
 }
 

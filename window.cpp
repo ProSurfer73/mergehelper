@@ -61,13 +61,15 @@ Window::Window(HINSTANCE hInstance)
                          hInstance,           // Application Instance
                          NULL );              // Window parameters
 
-    ShowWindow(m_handle,1);  //show the Window
-    UpdateWindow(m_handle);         //update the window in response to events
+
 }
 
 WPARAM Window::run()
 {
     MSG m;
+
+    ShowWindow(m_handle,1);  //show the Window
+    UpdateWindow(m_handle);         //update the window in response to events
 
     while(GetMessage(&m,NULL,0,0))        //Get message from Application Message Queue,Quit loop on Recieving WM_QUIT
     {

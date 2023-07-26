@@ -8,8 +8,6 @@ ProgressBar::ProgressBar(HWND mainWindow, HINSTANCE g_hinst)
     RECT rcClient;
     GetClientRect(mainWindow, &rcClient);
 
-    int cyVScroll = 10;
-
     m_handle = CreateWindowEx(0, PROGRESS_CLASS, (LPTSTR) NULL,
                             WS_CHILD | WS_VISIBLE | PBS_SMOOTH,
                             0, 0,
