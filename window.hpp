@@ -12,9 +12,16 @@ public:
 
     WPARAM run();
 
+    void update() const
+    {
+    UpdateWindow(m_handle);
+}
+
 private:
     HWND m_handle;
 };
+
+
 
 
 #endif // WINDOW_HPP

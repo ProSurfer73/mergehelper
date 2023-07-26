@@ -2,9 +2,9 @@
 
 #include "textbox.hpp"
 
-TextBox::TextBox(HWND parent, int x, int y, int height, int width, const char* text)
+TextBox::TextBox(HWND parent, int x, int y, int height, int width, const char* text, bool editable)
 {
-    handle = CreateWindow("STATIC",
+    handle = CreateWindow(editable?"EDIT":"STATIC",
                           text,
                           WS_VISIBLE | WS_CHILD,
                           x, y,
@@ -24,4 +24,14 @@ HWND TextBox::getHandle() const
 void TextBox::setText(const char* text)
 {
     SetWindowTextA(handle, text);
+}
+
+void TextBox::show()
+{
+    ShowWindow(handle, SW_SHOW);
+}
+
+void TextBox::hide()
+{
+    ShowWindow(handle, SW_HIDE);
 }

@@ -11,7 +11,7 @@
 #include "dialogs.hpp"
 #include "textbox.hpp"
 
-void fileLoading(std::vector<std::string>& v, ProgressBar& bar, TextBox& box, std::vector<std::string>& umf, HWND mainwindow);
+void fileLoading(std::vector<std::string>& v, ProgressBar& bar, TextBox& box, std::vector<std::string>& umf, Window& window, TextBox& box2);
 
 //-------------------------- Main Program------------------------------------------------------------------------------------------------------//
 int WINAPI WinMain(HINSTANCE hInstance,               //instance of the running program
@@ -33,21 +33,21 @@ int WINAPI WinMain(HINSTANCE hInstance,               //instance of the running 
     ProgressBar bar(window.getHandle(), hInstance);
     bar.setRange(v.size());
 
-    TextBox box(window.getHandle(), 20, 230, 80, 300, nullptr);
+    TextBox box(window.getHandle(), 20, 230, 80, 300, nullptr, false);
 
     char buf2[255+50];
     sprintf(buf2, "loading folder: %s", buffer);
-    TextBox box2(window.getHandle(), 30, 10, 30, 300, nullptr);
+    TextBox box2(window.getHandle(), 30, 10, 30, 300, 0, false);
     box2.setText(buf2);
 
     //
-    std::thread thread(fileLoading, std::ref(v), std::ref(bar), std::ref(box), std::ref(umf), window.getHandle());
+    std::thread thread(fileLoading, std::ref(v), std::ref(bar), std::ref(box), std::ref(umf), std::ref(window), std::ref(box2));
 
 
     return window.run();
 }
 
-void fileLoading(std::vector<std::string>& v, ProgressBar& bar, TextBox& box, std::vector<std::string>& umf, HWND windowHandle)
+void fileLoading(std::vector<std::string>& v, ProgressBar& bar, TextBox& box, std::vector<std::string>& umf, Window& window, TextBox& box2)
 {
     char buf[150];
 
@@ -67,13 +67,24 @@ void fileLoading(std::vector<std::string>& v, ProgressBar& bar, TextBox& box, st
 
     if(umf.empty())
     {
-        warningDialog(windowHandle, "There is no unmerged files in that directory.\nPlease select another directory.", NULL);
+        warningDialog(window.getHandle(), "There is no unmerged files in that directory.\nPlease select another directory.", NULL);
     }
     else
     {
         // lets launch the second part of our program.
+        box.hide();
+        box2.hide();
+        bar.hide();
 
+        TextBox contFile1(window.getHandle(), 10, 10, 300, 200, "i am the file", true);
 
+        contFile1.show();
+        window.update();
+
+        while(1)
+        {
+            Sleep(1000);
+        }
 
     }
 }

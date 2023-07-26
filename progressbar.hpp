@@ -12,6 +12,9 @@ public:
 
     void increment();
 
+    void hide();
+    void show();
+
 private:
     HWND m_handle;
 

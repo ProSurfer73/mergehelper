@@ -28,3 +28,13 @@ void ProgressBar::increment()
 {
     SendMessage(m_handle, PBM_STEPIT, 0, 0);
 }
+
+void ProgressBar::hide()
+{
+    ShowWindow(m_handle, SW_HIDE);
+}
+
+void ProgressBar::show()
+{
+    ShowWindow(m_handle, SW_SHOW);
+}
