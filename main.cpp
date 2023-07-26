@@ -76,14 +76,32 @@ void fileLoading(std::vector<std::string>& v, ProgressBar& bar, TextBox& box, st
         box2.hide();
         bar.hide();
 
-        TextBox contFile1(window.getHandle(), 10, 10, 300, 200, "i am the file", true);
-
+        TextBox contFile1(window.getHandle(), 10, 10, 300, 200, "i am the 1st file", true);
+        TextBox contFile2(window.getHandle(), 220, 10, 300, 200, "i am the 2nd file", true);
         contFile1.show();
+        contFile2.show();
+
         window.update();
 
-        while(1)
+        std::string s1, s2;
+
+        for(unsigned i=0; i<umf.size(); i++)
         {
-            Sleep(1000);
+            loadFile(umf[i].c_str(), s1, s2);
+            loadFile(umf[i].c_str(), s1, s2);
+
+            std::cout << "c1:" << s1 << std::endl;
+
+            contFile1.setText(s1.substr(0,100).c_str());
+            contFile2.setText(s2.substr(0,100).c_str());
+
+            contFile1.show();
+        contFile2.show();
+
+        window.update();
+
+            Sleep(5000);
+
         }
 
     }
